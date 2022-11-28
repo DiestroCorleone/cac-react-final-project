@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  transition: all 100ms;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+.grid-center {
+  display: grid;
+  align-items: center;
+}
+
+.m-auto {
+  margin: 0 auto;
+}
+
+.pad-small {
+  padding: 0.5rem;
+}
+
+.pad-mid {
+  padding: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.width-responsive {
+  width: 100%;
+  height: auto;
+}
+
+.border-debug {
+  border: 2px solid red;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
