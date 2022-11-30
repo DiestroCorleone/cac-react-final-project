@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <div className="pad-mid">
-      <h1>CaC Connect</h1>
+      <h1>CoderConnect</h1>
       <h3>La Red Social para Estudiantes de Programación!</h3>
       <BrowserRouter>
         <NavBar />

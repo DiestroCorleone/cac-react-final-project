@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createUser } from "../adapters/FirebaseAdapters";
 
 export default function CreateUser(props) {
   const [formData, setFormData] = useState({
     username: "",
+    email: "",
     password: "",
     repeatPassword: "",
   });
+
+  const navigate = useNavigate();
+
+  const redirectToLogin = () => {
+    navigate("/");
+  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -20,16 +28,50 @@ export default function CreateUser(props) {
     console.log(formData);
   };
 
+  const validateUserAndPass = (event) => {
+    event.preventDefault();
+    if (
+      formData.username.length < 6 ||
+      formData.password.length < 6 ||
+      formData.repeatPassword < 6
+    ) {
+      alert("El usuario y/o contraseña deben tener al menos 6 caracteres.");
+      return;
+    }
+
+    if (formData.password !== formData.repeatPassword) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
+
+    createUser(
+      formData.email,
+      formData.username,
+      formData.password,
+      redirectToLogin
+    );
+  };
+
   return (
     <section>
-      <form>
-        <h1>Iniciar sesión</h1>
+      <form onSubmit={validateUserAndPass}>
+        <h1>Crear usuario</h1>
         <input
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
           placeholder="Tu nombre de usuario..."
+          required
+        />
+        <br />
+        <br />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="nombre@email.com"
           required
         />
         <br />
@@ -54,7 +96,7 @@ export default function CreateUser(props) {
         />
         <br />
         <br />
-        <button>Registrate</button>
+        <input type="submit" value="Registrate" />
       </form>
       <p>
         Ya tenés una cuenta?
