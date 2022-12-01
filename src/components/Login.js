@@ -1,8 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { login } from "../adapters/FirebaseAdapters";
 
 export default function Login() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const { isUserLogged, setIsUserLogged, loggedUser, setLoggedUser } =
+    useContext(UserContext);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+
+  const redirectAfterLogin = () => {
+    navigate("/feed");
+  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -16,16 +25,34 @@ export default function Login() {
     console.log(formData);
   };
 
+  const validateUserAndPass = (event) => {
+    event.preventDefault();
+    if (formData.email.length < 6 || formData.password.length < 6) {
+      alert("El usuario y/o contraseña deben tener al menos 6 caracteres.");
+      return;
+    }
+
+    login(
+      formData.email,
+      formData.password,
+      isUserLogged,
+      setIsUserLogged,
+      loggedUser,
+      setLoggedUser,
+      redirectAfterLogin
+    );
+  };
+
   return (
     <section>
-      <form>
+      <form onSubmit={validateUserAndPass}>
         <h1>Iniciar sesión</h1>
         <input
-          type="text"
-          name="username"
-          value={formData.username}
+          type="email"
+          name="email"
+          value={formData.email}
           onChange={handleChange}
-          placeholder="Tu nombre de usuario..."
+          placeholder="name@email.com"
         />
         <br />
         <br />
@@ -38,7 +65,7 @@ export default function Login() {
         />
         <br />
         <br />
-        <button>ingresar</button>
+        <input type="submit" value="Ingresar" />
       </form>
       <p>
         Aún no tenés una cuenta?

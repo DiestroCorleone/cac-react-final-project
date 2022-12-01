@@ -13,6 +13,7 @@ import {
   signOut,
 } from "firebase/auth";
 
+/*-------------REGISTRO Y LOGIN-------------*/
 // Registro de usuario
 export const createUser = (email, username, password, redirectToLogin) => {
   // Llamamos a la función para crear un usuario.
@@ -37,6 +38,30 @@ export const createUser = (email, username, password, redirectToLogin) => {
   );
 };
 
+// Inicio de sesión
+export const login = (
+  email,
+  password,
+  isUserLogged,
+  setIsUserLogged,
+  loggedUser,
+  setLoggedUser,
+  redirectAfterLogin
+) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      if (user) {
+        getUser(setLoggedUser, setIsUserLogged, user.uid, redirectAfterLogin);
+      } else {
+        alert("No se pudo iniciar sesión, por favor intentá nuevamente");
+      }
+    })
+    .catch((error) => alert("Error iniciando sesión: " + error));
+};
+
+/*-------------OBTENIENDO POSTS Y USUARIOS-------------*/
 // Query que indicará qué base de datos y colección consultar.
 const postQuery = query(collection(db, "posts"));
 
@@ -56,12 +81,20 @@ export const getPosts = (setPosts) => {
 };
 
 // Traemos un usuario por ID.
-export const getUser = (setLoggedUser, id) => {
+export const getUser = (
+  setLoggedUser,
+  setIsUserLogged,
+  id,
+  redirectAfterLogin
+) => {
   const userRef = doc(db, "users", id); // Creamos una 'referencia', que se empleará en conjunto con getDoc().
   try {
     getDoc(userRef).then((res) => {
       // Traemos el documento en base a la referencia.
       setLoggedUser(res.data());
+      setIsUserLogged(true);
+      alert("Sesión iniciada correctamente!");
+      redirectAfterLogin();
     });
   } catch (e) {
     console.log("Error: " + e);
