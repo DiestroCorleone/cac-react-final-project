@@ -1,4 +1,4 @@
-import { db, storage, authentication as auth } from './initFirebase';
+import { db, storage, authentication as auth } from "./initFirebase";
 import {
   collection,
   query,
@@ -6,12 +6,12 @@ import {
   getDoc,
   doc,
   setDoc,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-} from 'firebase/auth';
+} from "firebase/auth";
 
 /*-------------REGISTRO Y LOGIN-------------*/
 // Registro de usuario
@@ -23,17 +23,18 @@ export const createUser = (email, username, password, redirectToLogin) => {
       const user = userCredential.user;
 
       // Creamos un nuevo documento en la colección 'users' con los datos obtenidos.
-      setDoc(doc(db, 'users', user.uid), {
+      setDoc(doc(db, "users", user.uid), {
         idUser: user.uid,
         username: username,
-        bio: '',
+        bio: "",
         likedPosts: [],
+        createdPosts: [],
       })
         .then((res) => {
-          alert('Usuario creado correctamente!');
+          alert("Usuario creado correctamente!");
           redirectToLogin();
         })
-        .catch((error) => alert('Error creando usuario: ' + error));
+        .catch((error) => alert("Error creando usuario: " + error));
     }
   );
 };
@@ -53,10 +54,10 @@ export const login = (
       if (user) {
         getUser(setLoggedUser, setIsUserLogged, user.uid, redirectAfterLogin);
       } else {
-        alert('No se pudo iniciar sesión, por favor intentá nuevamente');
+        alert("No se pudo iniciar sesión, por favor intentá nuevamente");
       }
     })
-    .catch((error) => alert('Error iniciando sesión: ' + error));
+    .catch((error) => alert("Error iniciando sesión: " + error));
 };
 
 // Cerrar sesión
@@ -65,14 +66,14 @@ export const signOutAccount = (setIsUserLogged, setLoggedUser) => {
     .then(() => {
       setIsUserLogged(false);
       setLoggedUser({});
-      alert('Deslogueado correctamente.');
+      alert("Deslogueado correctamente.");
     })
-    .catch((error) => alert('Error cerrando sesión: ' + error));
+    .catch((error) => alert("Error cerrando sesión: " + error));
 };
 
 /*-------------OBTENIENDO POSTS Y USUARIOS-------------*/
 // Query que indicará qué base de datos y colección consultar.
-const postQuery = query(collection(db, 'posts'));
+const postQuery = query(collection(db, "posts"));
 
 export const getPosts = (setPosts) => {
   const getAllPosts = async () => {
@@ -85,7 +86,7 @@ export const getPosts = (setPosts) => {
   try {
     getAllPosts();
   } catch (e) {
-    console.log('Error: ' + e);
+    console.log("Error: " + e);
   }
 };
 
@@ -96,16 +97,22 @@ export const getUser = (
   id,
   redirectAfterLogin
 ) => {
-  const userRef = doc(db, 'users', id); // Creamos una 'referencia', que se empleará en conjunto con getDoc().
+  const userRef = doc(db, "users", id); // Creamos una 'referencia', que se empleará en conjunto con getDoc().
   try {
     getDoc(userRef).then((res) => {
       // Traemos el documento en base a la referencia.
       setLoggedUser(res.data());
       setIsUserLogged(true);
-      alert('Sesión iniciada correctamente!');
+      alert("Sesión iniciada correctamente!");
       redirectAfterLogin();
     });
   } catch (e) {
-    console.log('Error: ' + e);
+    console.log("Error: " + e);
   }
 };
+
+/*------------FUNCIONES PARA POSTS-------------*/
+// const submitPost = () => {
+//   const postRef = doc(db, 'posts', )
+//   const userRef = doc(db,'users',)
+// };
