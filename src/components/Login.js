@@ -1,16 +1,15 @@
-import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-import { login } from "../adapters/FirebaseAdapters";
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import { login } from '../adapters/FirebaseAdapters';
 
 export default function Login() {
-  const { isUserLogged, setIsUserLogged, loggedUser, setLoggedUser } =
-    useContext(UserContext);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const { setIsUserLogged, setLoggedUser } = useContext(UserContext);
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
   const redirectAfterLogin = () => {
-    navigate("/feed");
+    navigate('/feed');
   };
 
   const handleChange = (event) => {
@@ -28,16 +27,14 @@ export default function Login() {
   const validateUserAndPass = (event) => {
     event.preventDefault();
     if (formData.email.length < 6 || formData.password.length < 6) {
-      alert("El usuario y/o contraseña deben tener al menos 6 caracteres.");
+      alert('El usuario y/o contraseña deben tener al menos 6 caracteres.');
       return;
     }
 
     login(
       formData.email,
       formData.password,
-      isUserLogged,
       setIsUserLogged,
-      loggedUser,
       setLoggedUser,
       redirectAfterLogin
     );
@@ -70,8 +67,8 @@ export default function Login() {
       <p>
         Aún no tenés una cuenta?
         <br />
-        <Link to={"/login"}>
-          {" "}
+        <Link to={'/create-user'}>
+          {' '}
           <span className="underline cursor-pointer">Registrate ahora</span>
         </Link>
       </p>

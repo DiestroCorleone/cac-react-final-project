@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { getUser } from "./adapters/FirebaseAdapters";
-import { UserContext } from "./context/UserContext";
-import Login from "./components/Login";
-import CreateUser from "./components/CreateUser";
-import NavBar from "./components/NavBar";
-import Feed from "./components/Feed";
-import User from "./components/User";
-import NotFound from "./components/NotFound";
+import { UserContext } from './context/UserContext';
+import Login from './components/Login';
+import CreateUser from './components/CreateUser';
+import NavBar from './components/NavBar';
+import Feed from './components/Feed';
+import User from './components/User';
+import NotFound from './components/NotFound';
 
 export default function App() {
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [loggedUser, setLoggedUser] = useState({});
-
-  // useEffect(() => {
-  //   getUser(setLoggedUser, "testUser");
-  // }, []);
 
   return (
     <UserContext.Provider
