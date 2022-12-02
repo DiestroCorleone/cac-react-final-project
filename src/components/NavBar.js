@@ -1,11 +1,17 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
-import { signOutAccount } from '../adapters/FirebaseAdapters';
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { signOutAccount } from "../adapters/FirebaseAdapters";
 
 export default function NavBar() {
   const { isUserLogged, setIsUserLogged, setLoggedUser } =
     useContext(UserContext);
+
+  const navigate = useNavigate();
+  const redirectAfterSignout = () => {
+    navigate("/");
+  };
+
   return (
     <nav>
       <ul className="flex row justify-between">
@@ -26,7 +32,15 @@ export default function NavBar() {
             <Link to="/user">
               <li>Usuario</li>
             </Link>
-            <li onClick={() => signOutAccount(setIsUserLogged, setLoggedUser)}>
+            <li
+              onClick={() =>
+                signOutAccount(
+                  setIsUserLogged,
+                  setLoggedUser,
+                  redirectAfterSignout
+                )
+              }
+            >
               Cerrar sesión
             </li>
           </>

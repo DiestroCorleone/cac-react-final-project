@@ -63,12 +63,17 @@ export const login = (
 };
 
 // Cerrar sesión
-export const signOutAccount = (setIsUserLogged, setLoggedUser) => {
+export const signOutAccount = (
+  setIsUserLogged,
+  setLoggedUser,
+  redirectAfterSignout
+) => {
   signOut(auth)
     .then(() => {
       setIsUserLogged(false);
       setLoggedUser({});
       alert("Deslogueado correctamente.");
+      redirectAfterSignout();
     })
     .catch((error) => alert("Error cerrando sesión: " + error));
 };

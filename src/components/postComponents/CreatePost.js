@@ -33,6 +33,13 @@ export default function CreatePost(props) {
     }
 
     submitPost(post, loggedUser, setPosts);
+    setPost({
+      idPost: nanoid(),
+      idUser: loggedUser.idUser,
+      likedBy: [],
+      postContent: "",
+      postCreatorUsername: loggedUser.username,
+    });
   };
 
   return (
