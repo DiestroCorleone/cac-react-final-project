@@ -6,6 +6,8 @@ import {
   getDoc,
   doc,
   setDoc,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -112,7 +114,22 @@ export const getUser = (
 };
 
 /*------------FUNCIONES PARA POSTS-------------*/
-// const submitPost = () => {
-//   const postRef = doc(db, 'posts', )
-//   const userRef = doc(db,'users',)
-// };
+export const submitPost = (post, loggedUser, setPosts) => {
+  const postRef = doc(db, "posts", post.idPost);
+  const userRef = doc(db, "users", loggedUser.idUser);
+
+  setDoc(postRef, post)
+    .then((res) => {
+      updateDoc(userRef, {
+        createdPosts: arrayUnion(post.idPost),
+      });
+      console.log("Post creado: " + res);
+    })
+    .then((res) => {
+      alert("Post creado correctamente!");
+      getPosts(setPosts);
+    })
+    .catch((error) =>
+      alert("Error creando post, por favor intentá nuevamente")
+    );
+};

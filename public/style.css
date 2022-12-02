@@ -15,6 +15,10 @@ nav ul {
   list-style-type: none;
 }
 
+textarea {
+  resize: vertical;
+}
+
 .grid-center {
   display: grid;
   align-items: center;
