@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { nanoid } from "nanoid";
-import { submitPost } from "../../adapters/FirebaseAdapters";
-import { UserContext } from "../../context/UserContext";
+import React, { useState, useContext } from 'react';
+import { nanoid } from 'nanoid';
+import { submitPost } from '../../adapters/FirebaseAdapters';
+import { UserContext } from '../../context/UserContext';
 
 export default function CreatePost(props) {
   const { loggedUser, setPosts } = useContext(UserContext);
@@ -9,7 +9,7 @@ export default function CreatePost(props) {
     idPost: nanoid(),
     idUser: loggedUser.idUser,
     likedBy: [],
-    postContent: "",
+    postContent: '',
     postCreatorUsername: loggedUser.username,
   });
 
@@ -22,28 +22,31 @@ export default function CreatePost(props) {
         [name]: value,
       };
     });
-    console.log(post);
   };
 
   const validatePost = (event) => {
     event.preventDefault();
     if (!post.postContent) {
-      alert("Por favor, ingresá contenido en tu post.");
+      alert('Por favor, ingresá contenido en tu post.');
       return;
     }
 
-    submitPost(post, loggedUser, setPosts);
-    setPost({
-      idPost: nanoid(),
-      idUser: loggedUser.idUser,
-      likedBy: [],
-      postContent: "",
-      postCreatorUsername: loggedUser.username,
-    });
+    try {
+      submitPost(post, loggedUser, setPosts);
+      setPost({
+        idPost: nanoid(),
+        idUser: loggedUser.idUser,
+        likedBy: [],
+        postContent: '',
+        postCreatorUsername: loggedUser.username,
+      });
+    } catch (error) {
+      alert('Error publicando post: ' + error);
+    }
   };
 
   return (
-    <div>
+    <div className="width-responsive">
       <form onSubmit={validatePost}>
         <textarea
           type="text"
@@ -53,9 +56,15 @@ export default function CreatePost(props) {
           name="postContent"
           rows="10"
           required
+          className="width-full pad-small"
         ></textarea>
         <br />
-        <input type="submit" value="Crear post" />
+        <br />
+        <input
+          type="submit"
+          value="Crear post"
+          className="pad-mid back-black color-grey"
+        />
       </form>
     </div>
   );

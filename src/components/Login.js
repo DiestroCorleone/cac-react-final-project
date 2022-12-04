@@ -21,7 +21,6 @@ export default function Login() {
         [name]: value,
       };
     });
-    console.log(formData);
   };
 
   const validateUserAndPass = (event) => {
@@ -41,15 +40,18 @@ export default function Login() {
   };
 
   return (
-    <section>
+    <section className="pad-mid">
       <form onSubmit={validateUserAndPass}>
         <h1>Iniciar sesión</h1>
+        <br />
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="name@email.com"
+          required
+          className="pad-small"
         />
         <br />
         <br />
@@ -59,11 +61,18 @@ export default function Login() {
           value={formData.password}
           placeholder="password"
           onChange={handleChange}
+          required
+          className="pad-small"
         />
         <br />
         <br />
-        <input type="submit" value="Ingresar" />
+        <input
+          type="submit"
+          value="Ingresar"
+          className="pad-small back-black color-grey"
+        />
       </form>
+      <br />
       <p>
         Aún no tenés una cuenta?
         <br />

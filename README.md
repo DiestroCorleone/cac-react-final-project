@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# CoderConnect | La Red Social para Estudiantes de Programación!
+
+### Trabajo final del curso de React de [Codo a Codo](https://www.buenosaires.gob.ar/educacion/codo-codo)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

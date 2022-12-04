@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-import { signOutAccount } from "../adapters/FirebaseAdapters";
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import { signOutAccount } from '../adapters/FirebaseAdapters';
 
 export default function NavBar() {
   const { isUserLogged, setIsUserLogged, setLoggedUser } =
@@ -9,27 +9,27 @@ export default function NavBar() {
 
   const navigate = useNavigate();
   const redirectAfterSignout = () => {
-    navigate("/");
+    navigate('/');
   };
 
   return (
-    <nav>
+    <nav className="pad-small back-black">
       <ul className="flex row justify-between">
         {!isUserLogged ? (
           <>
-            <Link to="/">
+            <Link to="/" className="link">
               <li>Login</li>
             </Link>
-            <Link to="/create-user">
+            <Link to="/create-user" className="link">
               <li>Crear usuario</li>
             </Link>
           </>
         ) : (
           <>
-            <Link to="/feed">
+            <Link to="/feed" className="link">
               <li>Feed</li>
             </Link>
-            <Link to="/user">
+            <Link to="/user" className="link">
               <li>Usuario</li>
             </Link>
             <li
@@ -40,6 +40,7 @@ export default function NavBar() {
                   redirectAfterSignout
                 )
               }
+              className="link"
             >
               Cerrar sesión
             </li>

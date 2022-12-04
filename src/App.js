@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { getUser } from "./adapters/FirebaseAdapters";
-import { UserContext } from "./context/UserContext";
-import Login from "./components/Login";
-import CreateUser from "./components/CreateUser";
-import NavBar from "./components/NavBar";
-import Feed from "./components/Feed";
-import User from "./components/User";
-import NotFound from "./components/NotFound";
+import { UserContext } from './context/UserContext';
+import Login from './components/Login';
+import CreateUser from './components/CreateUser';
+import NavBar from './components/NavBar';
+import Feed from './components/Feed';
+import User from './components/User';
+import NotFound from './components/NotFound';
 
 export default function App() {
   const [isUserLogged, setIsUserLogged] = useState(false);
@@ -26,8 +26,10 @@ export default function App() {
       }}
     >
       <div className="pad-mid">
-        <h1>CoderConnect</h1>
-        <h3>La Red Social para Estudiantes de Programación!</h3>
+        <header className="pad-mid">
+          <h1>CoderConnect</h1>
+          <h3>La Red Social para Estudiantes de Programación!</h3>
+        </header>
         <BrowserRouter>
           <NavBar />
           <Routes>
