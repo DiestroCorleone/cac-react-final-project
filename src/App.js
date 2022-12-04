@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import { getUser } from "./adapters/FirebaseAdapters";
 import { UserContext } from './context/UserContext';
 import Login from './components/Login';
 import CreateUser from './components/CreateUser';
