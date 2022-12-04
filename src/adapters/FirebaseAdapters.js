@@ -8,6 +8,7 @@ import {
   setDoc,
   updateDoc,
   arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 import {
   createUserWithEmailAndPassword,
@@ -134,6 +135,42 @@ export const submitPost = (post, loggedUser, setPosts) => {
       getPosts(setPosts);
     })
     .catch((error) =>
-      alert('Error creando post, por favor intentá nuevamente')
+      alert('Error creando post, por favor intentá nuevamente: ' + error)
+    );
+};
+
+export const likePost = (
+  idPost,
+  idUser,
+  isPostLiked,
+  setIsPostLiked,
+  numberOfLikes,
+  setNumberOfLikes
+) => {
+  const postRef = doc(db, 'posts', idPost);
+  const userRef = doc(db, 'users', idUser);
+
+  updateDoc(
+    userRef,
+    !isPostLiked
+      ? { likedPosts: arrayUnion(idPost) }
+      : { likedPosts: arrayRemove(idPost) }
+  )
+    .then(
+      updateDoc(
+        postRef,
+        !isPostLiked
+          ? { likedBy: arrayUnion(idUser) }
+          : { likedBy: arrayRemove(idUser) }
+      )
+    )
+    .then((res) => {
+      !isPostLiked
+        ? setNumberOfLikes(numberOfLikes + 1)
+        : setNumberOfLikes(numberOfLikes - 1);
+      setIsPostLiked(!isPostLiked);
+    })
+    .catch((error) =>
+      alert('Error likeando post, por favor intentá nuevamente: ' + error)
     );
 };
