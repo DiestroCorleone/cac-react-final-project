@@ -174,3 +174,15 @@ export const likePost = (
       alert('Error likeando post, por favor intentá nuevamente: ' + error)
     );
 };
+
+export const editBio = (idUser, bio, setEditable) => {
+  const userRef = doc(db, 'users', idUser);
+
+  updateDoc(userRef, {
+    bio: bio,
+  })
+    .then(alert('Bio editada correctamente!'), setEditable(false))
+    .catch((error) =>
+      alert('No pudo editarse la bio, por favor intentá nuevamente: ' + error)
+    );
+};
