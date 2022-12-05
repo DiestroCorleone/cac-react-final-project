@@ -2,7 +2,30 @@
 
 ### Trabajo final del curso de React de [Codo a Codo](https://www.buenosaires.gob.ar/educacion/codo-codo)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto fue facilitado con [Create React App](https://github.com/facebook/create-react-app).
+
+## Descripción
+
+Red social que emplea [Firebase](https://firebase.google.com) en el backend, admite registro con e-mail y contraseña. Cuenta con un feed de posts, a los cuales puede dársele *like* y mostrar un conteo de la cantidad.
+También tenemos un perfil de usuario con un nombre y una sencilla bio.
+
+[Demo app](https://react-dsce86.stackblitz.io)
+
+## Dependencias
+
+* [Firebase](npmjs.com/package/firebase)
+* [nanoid](https://www.npmjs.com/package/nanoid)
+
+## To-do
+
+- [ ] Edición de bio.
+- [ ] Posibilidad de subir y modificar una imagen de perfil.
+- [ ] Mantener sesión inciada.
+- [ ] Diseño de UX/UI e isotipo.
+- [ ] Opciones de accesibilidad y SEO (texto alternativo, keywords, etc.).
+- [ ] Archivos individuales para adapters de Firebase (hoy se encuentran todas en el archivo FirebaseAdapters.js).
+- [ ] (No urgente) Comentarios sobre posts.
+
 
 ## Available Scripts
 
