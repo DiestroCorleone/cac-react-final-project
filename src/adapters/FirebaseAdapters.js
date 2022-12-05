@@ -28,6 +28,7 @@ export const createUser = (email, username, password, redirectToLogin) => {
       // Creamos un nuevo documento en la colección 'users' con los datos obtenidos.
       setDoc(doc(db, 'users', user.uid), {
         idUser: user.uid,
+        email: email,
         username: username,
         bio: '',
         likedPosts: [],
