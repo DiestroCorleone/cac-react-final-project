@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { editBio } from '../adapters/FirebaseAdapters';
+import React, { useState } from "react";
+import { editBio, updateProfilePicture } from "../adapters/FirebaseAdapters";
 
 export default function User(props) {
   const [bio, setBio] = useState(
-    props.loggedUser.bio || 'Contanos algo sobre vos :)'
+    props.loggedUser.bio || "Contanos algo sobre vos :)"
   );
   const [isEditable, setIsEditable] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicURL, setProfilePicURL] = useState(
+    props.loggedUser.profilePicURL ||
+      "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  );
 
   const handleChange = (event) => {
     setBio(event.target.value);
@@ -15,18 +20,50 @@ export default function User(props) {
     event.preventDefault();
     bio
       ? editBio(props.loggedUser.idUser, bio, setIsEditable)
-      : alert('Por favor, ingresá texto en tu bio.');
+      : alert("Por favor, ingresá texto en tu bio.");
+  };
+
+  const handleFileSelect = (event) => {
+    setProfilePicture(event.target.files[0]);
   };
 
   return (
     <section className="pad-mid width-80">
       <img
-        src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+        src={profilePicURL}
         alt="Profile"
         className="width-30 m-auto border-black"
       />
-      <h1>{props.loggedUser.username || 'Nombre de usuario'}</h1>
-      <p>{props.loggedUser.email || 'email@mail.com'}</p>
+      <br />
+      <br />
+      <label htmlFor="profilePicture">Actualizar foto de perfil</label>
+      <br />
+      <input
+        type="file"
+        name="profilePicture"
+        accept=".jpg, .png"
+        onChange={handleFileSelect}
+      />
+      {profilePicture && (
+        <button
+          className="pad-mid color-grey back-black"
+          onClick={() =>
+            updateProfilePicture(
+              props.loggedUser.idUser,
+              profilePicture,
+              setProfilePicURL
+            )
+          }
+        >
+          Actualizar
+        </button>
+      )}
+      <br />
+      <br />
+      <br />
+      <hr />
+      <h1>{props.loggedUser.username || "Nombre de usuario"}</h1>
+      <p>{props.loggedUser.email || "email@mail.com"}</p>
       <br />
       <hr />
       <br />
@@ -47,7 +84,7 @@ export default function User(props) {
             name="bio"
             onChange={handleChange}
             placeholder={bio}
-            className={isEditable ? 'border-black pad-mid' : 'pad-mid'}
+            className={isEditable ? "border-black pad-mid" : "pad-mid"}
           />
           <input
             type="submit"

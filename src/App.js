@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { UserContext } from './context/UserContext';
-import Login from './components/Login';
-import CreateUser from './components/CreateUser';
-import NavBar from './components/NavBar';
-import Feed from './components/Feed';
-import User from './components/User';
-import NotFound from './components/NotFound';
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
+import Login from "./components/Login";
+import CreateUser from "./components/CreateUser";
+import NavBar from "./components/NavBar";
+import Feed from "./components/Feed";
+import User from "./components/User";
+import NotFound from "./components/NotFound";
 
 export default function App() {
   const [isUserLogged, setIsUserLogged] = useState(false);
@@ -45,10 +45,10 @@ export default function App() {
                 <Route exact path="/" element={<Login />} />
                 <Route path="/create-user" element={<CreateUser />} />
 
-                {/* <Route
+                <Route
                   path="/user"
                   element={<User loggedUser={loggedUser} />}
-                /> */}
+                />
               </>
             )}
             <Route path="*" element={<NotFound />} />

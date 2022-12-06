@@ -1,4 +1,4 @@
-import { db, storage, authentication as auth } from './initFirebase';
+import { db, storage, authentication as auth } from "./initFirebase";
 import {
   collection,
   query,
@@ -9,12 +9,13 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-} from 'firebase/auth';
+} from "firebase/auth";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 /*-------------REGISTRO Y LOGIN-------------*/
 // Registro de usuario
@@ -26,19 +27,20 @@ export const createUser = (email, username, password, redirectToLogin) => {
       const user = userCredential.user;
 
       // Creamos un nuevo documento en la colección 'users' con los datos obtenidos.
-      setDoc(doc(db, 'users', user.uid), {
+      setDoc(doc(db, "users", user.uid), {
         idUser: user.uid,
         email: email,
         username: username,
-        bio: '',
+        bio: "",
         likedPosts: [],
         createdPosts: [],
+        profilePicURL: "",
       })
         .then((res) => {
-          alert('Usuario creado correctamente!');
+          alert("Usuario creado correctamente!");
           redirectToLogin();
         })
-        .catch((error) => alert('Error creando usuario: ' + error));
+        .catch((error) => alert("Error creando usuario: " + error));
     }
   );
 };
@@ -58,10 +60,10 @@ export const login = (
       if (user) {
         getUser(setLoggedUser, setIsUserLogged, user.uid, redirectAfterLogin);
       } else {
-        alert('No se pudo iniciar sesión, por favor intentá nuevamente');
+        alert("No se pudo iniciar sesión, por favor intentá nuevamente");
       }
     })
-    .catch((error) => alert('Error iniciando sesión: ' + error));
+    .catch((error) => alert("Error iniciando sesión: " + error));
 };
 
 // Cerrar sesión
@@ -74,15 +76,15 @@ export const signOutAccount = (
     .then(() => {
       setIsUserLogged(false);
       setLoggedUser({});
-      alert('Deslogueado correctamente.');
+      alert("Deslogueado correctamente.");
       redirectAfterSignout();
     })
-    .catch((error) => alert('Error cerrando sesión: ' + error));
+    .catch((error) => alert("Error cerrando sesión: " + error));
 };
 
 /*-------------OBTENIENDO POSTS Y USUARIOS-------------*/
 // Query que indicará qué base de datos y colección consultar.
-const postQuery = query(collection(db, 'posts'));
+const postQuery = query(collection(db, "posts"));
 
 export const getPosts = (setPosts) => {
   const getAllPosts = async () => {
@@ -95,7 +97,7 @@ export const getPosts = (setPosts) => {
   try {
     getAllPosts();
   } catch (error) {
-    alert('Error recuperando posts: ' + error);
+    alert("Error recuperando posts: " + error);
   }
 };
 
@@ -106,24 +108,24 @@ export const getUser = (
   id,
   redirectAfterLogin
 ) => {
-  const userRef = doc(db, 'users', id); // Creamos una 'referencia', que se empleará en conjunto con getDoc().
+  const userRef = doc(db, "users", id); // Creamos una 'referencia', que se empleará en conjunto con getDoc().
   try {
     getDoc(userRef).then((res) => {
       // Traemos el documento en base a la referencia.
       setLoggedUser(res.data());
       setIsUserLogged(true);
-      alert('Sesión iniciada correctamente!');
+      alert("Sesión iniciada correctamente!");
       redirectAfterLogin();
     });
   } catch (error) {
-    alert('Error recuperando usuario: ' + error);
+    alert("Error recuperando usuario: " + error);
   }
 };
 
 /*------------FUNCIONES PARA POSTS-------------*/
 export const submitPost = (post, loggedUser, setPosts) => {
-  const postRef = doc(db, 'posts', post.idPost);
-  const userRef = doc(db, 'users', loggedUser.idUser);
+  const postRef = doc(db, "posts", post.idPost);
+  const userRef = doc(db, "users", loggedUser.idUser);
 
   setDoc(postRef, post)
     .then((res) => {
@@ -132,11 +134,11 @@ export const submitPost = (post, loggedUser, setPosts) => {
       });
     })
     .then((res) => {
-      alert('Post creado correctamente!');
+      alert("Post creado correctamente!");
       getPosts(setPosts);
     })
     .catch((error) =>
-      alert('Error creando post, por favor intentá nuevamente: ' + error)
+      alert("Error creando post, por favor intentá nuevamente: " + error)
     );
 };
 
@@ -148,8 +150,8 @@ export const likePost = (
   numberOfLikes,
   setNumberOfLikes
 ) => {
-  const postRef = doc(db, 'posts', idPost);
-  const userRef = doc(db, 'users', idUser);
+  const postRef = doc(db, "posts", idPost);
+  const userRef = doc(db, "users", idUser);
 
   updateDoc(
     userRef,
@@ -172,18 +174,51 @@ export const likePost = (
       setIsPostLiked(!isPostLiked);
     })
     .catch((error) =>
-      alert('Error likeando post, por favor intentá nuevamente: ' + error)
+      alert("Error likeando post, por favor intentá nuevamente: " + error)
     );
 };
 
 export const editBio = (idUser, bio, setEditable) => {
-  const userRef = doc(db, 'users', idUser);
+  const userRef = doc(db, "users", idUser);
 
   updateDoc(userRef, {
     bio: bio,
   })
-    .then(alert('Bio editada correctamente!'), setEditable(false))
+    .then(alert("Bio editada correctamente!"), setEditable(false))
     .catch((error) =>
-      alert('No pudo editarse la bio, por favor intentá nuevamente: ' + error)
+      alert("No pudo editarse la bio, por favor intentá nuevamente: " + error)
     );
+};
+
+export const updateProfilePicture = (
+  idUser,
+  profilePicture,
+  setProfilePicURL,
+  setProfilePicture
+) => {
+  if (!profilePicture) {
+    alert("Por favor, elegí una imagen para subir");
+  } else {
+    const fileName = profilePicture.name.replace(/\s/g, "");
+    const fullFileName = `${idUser}${fileName}`;
+
+    const imageRef = ref(
+      storage,
+      `user-images/profile-pictures/${fullFileName}`
+    );
+    uploadBytes(imageRef, profilePicture)
+      .then((snapshot) => {
+        return getDownloadURL(snapshot.ref);
+      })
+      .then((downloadURL) => {
+        const userRef = doc(db, "users", idUser);
+        updateDoc(userRef, {
+          profilePicURL: downloadURL,
+        });
+        setProfilePicURL(downloadURL);
+        alert("Imagen de perfil cargada correctamente!");
+        setProfilePicture(null);
+      })
+      .catch((error) => alert("Error cargando imagen de perfil: " + error));
+  }
 };
