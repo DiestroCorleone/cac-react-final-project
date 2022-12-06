@@ -51,7 +51,8 @@ export default function User(props) {
             updateProfilePicture(
               props.loggedUser.idUser,
               profilePicture,
-              setProfilePicURL
+              setProfilePicURL,
+              setProfilePicture
             )
           }
         >
