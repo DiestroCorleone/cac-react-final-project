@@ -44,11 +44,6 @@ export default function App() {
               <>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/create-user" element={<CreateUser />} />
-
-                <Route
-                  path="/user"
-                  element={<User loggedUser={loggedUser} />}
-                />
               </>
             )}
             <Route path="*" element={<NotFound />} />
