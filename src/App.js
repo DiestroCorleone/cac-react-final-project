@@ -37,7 +37,7 @@ export default function App() {
                 <Route path="/feed" element={<Feed />} />
                 <Route
                   path="/user"
-                  element={<User loggedUser={loggedUser} />}
+                  element={<User loggedUser={loggedUser} posts={posts} />}
                 />
               </>
             ) : (

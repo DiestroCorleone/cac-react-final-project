@@ -1,0 +1,54 @@
+Date : 2022-12-07 22:44:42
+Directory : e:\Programming\Codo a Codo\React\Projects\cac-react-final-project
+Total : 20 files,  31764 codes, 31 comments, 154 blanks, all 31949 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |     30,811 |          0 |          3 |     30,814 |
+| JavaScript |         14 |        754 |         17 |         75 |        846 |
+| CSS        |          1 |        115 |          0 |         34 |        149 |
+| Markdown   |          1 |         55 |          0 |         41 |         96 |
+| HTML       |          1 |         29 |         14 |          1 |         44 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                              |         20 |     31,764 |         31 |        154 |     31,949 |
+| public                                                                                                         |          3 |        169 |         14 |         36 |        219 |
+| src                                                                                                            |         14 |        754 |         17 |         75 |        846 |
+| src\adapters                                                                                                   |          2 |        211 |         16 |         22 |        249 |
+| src\components                                                                                                 |          9 |        478 |          1 |         44 |        523 |
+| src\components\postComponents                                                                                  |          3 |        110 |          0 |         12 |        122 |
+| src\context                                                                                                    |          1 |          2 |          0 |          2 |          4 |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                       | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\README.md                                    | Markdown   |         55 |          0 |         41 |         96 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\package-lock.json                            | JSON       |     30,745 |          0 |          1 |     30,746 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\package.json                                 | JSON       |         41 |          0 |          1 |         42 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\public\index.html                            | HTML       |         29 |         14 |          1 |         44 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\public\manifest.json                         | JSON       |         25 |          0 |          1 |         26 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\public\style.css                             | CSS        |        115 |          0 |         34 |        149 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\App.js                                   | JavaScript |         53 |          0 |          3 |         56 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\adapters\FirebaseAdapters.js             | JavaScript |        195 |         12 |         18 |        225 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\adapters\initFirebase.js                 | JavaScript |         16 |          4 |          4 |         24 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\CreateUser.js                 | JavaScript |        111 |          0 |          9 |        120 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\Feed.js                       | JavaScript |         18 |          1 |          4 |         23 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\Login.js                      | JavaScript |         80 |          0 |          7 |         87 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\NavBar.js                     | JavaScript |         49 |          0 |          4 |         53 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\NotFound.js                   | JavaScript |         16 |          0 |          2 |         18 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\User.js                       | JavaScript |         94 |          0 |          6 |        100 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\postComponents\CreatePost.js  | JavaScript |         66 |          0 |          6 |         72 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\postComponents\Post.js        | JavaScript |         25 |          0 |          3 |         28 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\components\postComponents\RenderPosts.js | JavaScript |         19 |          0 |          3 |         22 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\context\UserContext.js                   | JavaScript |          2 |          0 |          2 |          4 |
+| e:\Programming\Codo a Codo\React\Projects\cac-react-final-project\src\index.js                                 | JavaScript |         10 |          0 |          4 |         14 |
+| Total                                                                                                          |            |     31,764 |         31 |        154 |     31,949 |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

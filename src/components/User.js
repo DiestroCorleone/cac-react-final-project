@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { editBio, updateProfilePicture } from "../adapters/FirebaseAdapters";
+import RenderPosts from "./postComponents/RenderPosts";
 
 export default function User(props) {
   const [bio, setBio] = useState(
@@ -11,6 +12,10 @@ export default function User(props) {
     props.loggedUser.profilePicURL ||
       "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
   );
+  const [userPosts, setUserPosts] = useState([]);
+
+  const filterPosts = () =>
+    props.posts.filter((post) => post.idUser === props.loggedUser.idUser);
 
   const handleChange = (event) => {
     setBio(event.target.value);
@@ -26,6 +31,11 @@ export default function User(props) {
   const handleFileSelect = (event) => {
     setProfilePicture(event.target.files[0]);
   };
+
+  useEffect(() => {
+    setUserPosts(filterPosts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.posts]);
 
   return (
     <section className="pad-mid width-80">
@@ -94,6 +104,8 @@ export default function User(props) {
           />
         </form>
       )}
+      <br />
+      <RenderPosts posts={userPosts} />
     </section>
   );
 }

@@ -27,14 +27,13 @@ También tenemos un perfil de usuario con un nombre y una sencilla bio.
 - [ ] Archivos individuales para adapters de Firebase (hoy se encuentran todas en el archivo FirebaseAdapters.js).
 - [ ] (No urgente) Comentarios sobre posts.
 
-## Estructura de la carpeta *components*
+## Estructura de la carpeta _components_
 
-* **CreateUser:** Nos permite ingresar un e-mail y una contraseña (que debemos confirmar). Se almacena en un estado, se valida, luego de lo cual se envía a Firebase para crear el usuario.
-* **Login:** Formm de ingreso con usuario y constraseña, datos que se almacenan en un estado, sonb validados, y luego efectuamos la consulta a Firebase.
-* **Feed:** Mediante un `useEffect`, trae todos los post y los almacena en un estado para luego ser renderizados.
-* **NavBar:** Como su nombre lo indica, barra de navegación. Varía su contenido de acuerdo si al usuario se encuentra o no con sesión iniciada. Permite acceder a las distintas rutas, y cerrar sesión (si aplica).
-* **User:** Nos muestra foto de perfil, e-mail y bio. Esta última puede editarse haciendo click en el ícono del lápiz. Si se elige esta opción, podemos
-
+- **CreateUser:** Nos permite ingresar un e-mail y una contraseña (que debemos confirmar). Se almacena en un estado, se valida, luego de lo cual se envía a Firebase para crear el usuario.
+- **Login:** Formm de ingreso con usuario y constraseña, datos que se almacenan en un estado, sonb validados, y luego efectuamos la consulta a Firebase.
+- **Feed:** Mediante un `useEffect`, trae todos los post y los almacena en un estado para luego ser renderizados.
+- **NavBar:** Como su nombre lo indica, barra de navegación. Varía su contenido de acuerdo si al usuario se encuentra o no con sesión iniciada. Permite acceder a las distintas rutas, y cerrar sesión (si aplica).
+- **User:** Nos muestra foto de perfil, e-mail y bio. Esta última puede editarse haciendo click en el ícono del lápiz. Si se elige esta opción, podemos editar la bio. Del mismo modo, podemos subir una imagen de perfil; cada una reemplazará a la anteriormente subida, almacenándose en la base de datos.
 
 ## Available Scripts
 

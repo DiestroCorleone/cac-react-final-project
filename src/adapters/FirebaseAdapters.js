@@ -7,6 +7,7 @@ import {
   doc,
   setDoc,
   updateDoc,
+  deleteDoc,
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
@@ -177,6 +178,28 @@ export const likePost = (
       alert("Error likeando post, por favor intentá nuevamente: " + error)
     );
 };
+
+export const deletePost = (idPost, idUser, postCreatorId, setPosts) => {
+  const postRef = doc(db, "posts", idPost);
+  const userRef = doc(db, "users", idUser);
+
+  if (idUser === postCreatorId) {
+    deleteDoc(postRef)
+      .then((res) => {
+        updateDoc(userRef, {
+          createdPosts: arrayRemove(idPost),
+        }).then((res) => {
+          alert("Post eliminado correctamente!");
+          setPosts((prevPosts) =>
+            prevPosts.filter((post) => post.idPost !== idPost)
+          );
+        });
+      })
+      .catch((error) => alert("Error eliminando post: " + error));
+  }
+};
+
+// Profile edit functions.
 
 export const editBio = (idUser, bio, setEditable) => {
   const userRef = doc(db, "users", idUser);
