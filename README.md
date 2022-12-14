@@ -15,6 +15,7 @@ También tenemos un perfil de usuario con un nombre y una sencilla bio.
 
 - [Firebase](npmjs.com/package/firebase)
 - [nanoid](https://www.npmjs.com/package/nanoid)
+- [SweetAlert2](https://sweetalert2.github.io/)
 
 ## To-do
 
