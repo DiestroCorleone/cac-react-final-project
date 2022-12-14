@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
@@ -8,9 +8,7 @@ export default function NotFound() {
       <p>La página que buscás no existe o no está disponible.</p>
       <br />
       <Link to="/">
-        <button className="pad-mid back-black color-grey">
-          Volver a inicio
-        </button>
+        <button className="pad-mid back-black color-grey">Volver a inicio</button>
       </Link>
     </div>
   );

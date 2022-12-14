@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { createUser } from '../adapters/FirebaseAdapters';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { createUser } from "../adapters/FirebaseAdapters";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 export default function CreateUser(props) {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    repeatPassword: "",
   });
 
   const navigate = useNavigate();
 
   const redirectToLogin = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleChange = (event) => {
@@ -29,26 +33,27 @@ export default function CreateUser(props) {
 
   const validateUserAndPass = (event) => {
     event.preventDefault();
-    if (
-      formData.username.length < 6 ||
-      formData.password.length < 6 ||
-      formData.repeatPassword < 6
-    ) {
-      alert('El usuario y/o contraseña deben tener al menos 6 caracteres.');
+    if (formData.username.length < 6 || formData.password.length < 6 || formData.repeatPassword < 6) {
+      MySwal.fire({
+        title: "¡Error al crear tu usuario!",
+        text: "El usuario y/o contraseña deben tener al menos 6 caracteres.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
       return;
     }
 
     if (formData.password !== formData.repeatPassword) {
-      alert('Las contraseñas no coinciden.');
+      MySwal.fire({
+        title: "¡Error al crear tu usuario!",
+        text: "Las contraseñas no coinciden",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
       return;
     }
 
-    createUser(
-      formData.email,
-      formData.username,
-      formData.password,
-      redirectToLogin
-    );
+    createUser(formData.email, formData.username, formData.password, redirectToLogin);
   };
 
   return (
@@ -100,17 +105,13 @@ export default function CreateUser(props) {
         />
         <br />
         <br />
-        <input
-          type="submit"
-          value="Registrate"
-          className="pad-small back-black color-grey"
-        />
+        <input type="submit" value="Registrate" className="pad-small back-black color-grey" />
       </form>
       <br />
       <p>
         Ya tenés una cuenta?
         <br />
-        <Link to={'/'}>
+        <Link to={"/"}>
           <span className="underline cursor-pointer">Iniciar sesión</span>
         </Link>
       </p>

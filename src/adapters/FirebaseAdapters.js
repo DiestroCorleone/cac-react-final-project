@@ -11,76 +11,99 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 /*-------------REGISTRO Y LOGIN-------------*/
 // Registro de usuario
 export const createUser = (email, username, password, redirectToLogin) => {
   // Llamamos a la función para crear un usuario.
-  createUserWithEmailAndPassword(auth, email, password).then(
-    (userCredential) => {
-      // Guardamos el ID de usuario devuelto en una variable.
-      const user = userCredential.user;
+  createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    // Guardamos el ID de usuario devuelto en una variable.
+    const user = userCredential.user;
 
-      // Creamos un nuevo documento en la colección 'users' con los datos obtenidos.
-      setDoc(doc(db, "users", user.uid), {
-        idUser: user.uid,
-        email: email,
-        username: username,
-        bio: "",
-        likedPosts: [],
-        createdPosts: [],
-        profilePicURL: "",
+    // Creamos un nuevo documento en la colección 'users' con los datos obtenidos.
+    setDoc(doc(db, "users", user.uid), {
+      idUser: user.uid,
+      email: email,
+      username: username,
+      bio: "",
+      likedPosts: [],
+      createdPosts: [],
+      profilePicURL: "",
+    })
+      .then((res) => {
+        MySwal.fire({
+          title: "¡Creación exitosa!",
+          text: "¡Tu usuario se creó correctamente!",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+        redirectToLogin();
       })
-        .then((res) => {
-          alert("Usuario creado correctamente!");
-          redirectToLogin();
-        })
-        .catch((error) => alert("Error creando usuario: " + error));
-    }
-  );
+      .catch((error) => {
+        MySwal.fire({
+          title: "¡Error al crear tu usuario!",
+          text: "No pudimos crear tu usuario:" + error,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      });
+  });
 };
 
 // Inicio de sesión
-export const login = (
-  email,
-  password,
-  setIsUserLogged,
-  setLoggedUser,
-  redirectAfterLogin
-) => {
+export const login = (email, password, setIsUserLogged, setLoggedUser, redirectAfterLogin) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-
       if (user) {
         getUser(setLoggedUser, setIsUserLogged, user.uid, redirectAfterLogin);
       } else {
-        alert("No se pudo iniciar sesión, por favor intentá nuevamente");
+        MySwal.fire({
+          title: "¡Error!",
+          text: "No pudimos iniciar tu sesión :(",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
       }
     })
-    .catch((error) => alert("Error iniciando sesión: " + error));
+    .catch((error) => {
+      MySwal.fire({
+        title: "¡Error!",
+        text: error,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    });
 };
 
 // Cerrar sesión
-export const signOutAccount = (
-  setIsUserLogged,
-  setLoggedUser,
-  redirectAfterSignout
-) => {
+export const signOutAccount = (setIsUserLogged, setLoggedUser, redirectAfterSignout) => {
   signOut(auth)
     .then(() => {
       setIsUserLogged(false);
       setLoggedUser({});
-      alert("Deslogueado correctamente.");
+      MySwal.fire({
+        title: "Sesión finalizada",
+        text: "¡Esperamos que vuelvas pronto!",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
       redirectAfterSignout();
     })
-    .catch((error) => alert("Error cerrando sesión: " + error));
+    .catch((error) =>
+      MySwal.fire({
+        title: "¡Error al cerrar sesión!",
+        text: "No pudimos cerrar tu sesión:" + error,
+        icon: "error",
+        confirmButtonText: "Ok",
+      })
+    );
 };
 
 /*-------------OBTENIENDO POSTS Y USUARIOS-------------*/
@@ -98,28 +121,38 @@ export const getPosts = (setPosts) => {
   try {
     getAllPosts();
   } catch (error) {
-    alert("Error recuperando posts: " + error);
+    MySwal.fire({
+      title: "¡Error!",
+      text: "No pudimos recuperar tus publicaciones:" + error,
+      icon: "error",
+      confirmButtonText: "Ok",
+    });
   }
 };
 
 // Traemos un usuario por ID.
-export const getUser = (
-  setLoggedUser,
-  setIsUserLogged,
-  id,
-  redirectAfterLogin
-) => {
+export const getUser = (setLoggedUser, setIsUserLogged, id, redirectAfterLogin) => {
   const userRef = doc(db, "users", id); // Creamos una 'referencia', que se empleará en conjunto con getDoc().
   try {
     getDoc(userRef).then((res) => {
       // Traemos el documento en base a la referencia.
       setLoggedUser(res.data());
       setIsUserLogged(true);
-      alert("Sesión iniciada correctamente!");
+      MySwal.fire({
+        title: "¡Bienvenido!",
+        text: "Sesión iniciada correctamente!",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
       redirectAfterLogin();
     });
   } catch (error) {
-    alert("Error recuperando usuario: " + error);
+    MySwal.fire({
+      title: "¡Error al recuperar usuario!",
+      text: error,
+      icon: "error",
+      confirmButtonText: "Ok",
+    });
   }
 };
 
@@ -135,47 +168,41 @@ export const submitPost = (post, loggedUser, setPosts) => {
       });
     })
     .then((res) => {
-      alert("Post creado correctamente!");
+      MySwal.fire({
+        title: "¡Publicación exitosa!",
+        text: "Tu publicación se ha creado correctamente!",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
       getPosts(setPosts);
     })
-    .catch((error) =>
-      alert("Error creando post, por favor intentá nuevamente: " + error)
-    );
+    .catch((error) => {
+      MySwal.fire({
+        title: "¡Error crear tu publicación!",
+        text: "No pudimos crear tu publicación, por favor intenta nuevamente:" + error,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    });
 };
 
-export const likePost = (
-  idPost,
-  idUser,
-  isPostLiked,
-  setIsPostLiked,
-  numberOfLikes,
-  setNumberOfLikes
-) => {
+export const likePost = (idPost, idUser, isPostLiked, setIsPostLiked, numberOfLikes, setNumberOfLikes) => {
   const postRef = doc(db, "posts", idPost);
   const userRef = doc(db, "users", idUser);
 
-  updateDoc(
-    userRef,
-    !isPostLiked
-      ? { likedPosts: arrayUnion(idPost) }
-      : { likedPosts: arrayRemove(idPost) }
-  )
-    .then(
-      updateDoc(
-        postRef,
-        !isPostLiked
-          ? { likedBy: arrayUnion(idUser) }
-          : { likedBy: arrayRemove(idUser) }
-      )
-    )
+  updateDoc(userRef, !isPostLiked ? { likedPosts: arrayUnion(idPost) } : { likedPosts: arrayRemove(idPost) })
+    .then(updateDoc(postRef, !isPostLiked ? { likedBy: arrayUnion(idUser) } : { likedBy: arrayRemove(idUser) }))
     .then((res) => {
-      !isPostLiked
-        ? setNumberOfLikes(numberOfLikes + 1)
-        : setNumberOfLikes(numberOfLikes - 1);
+      !isPostLiked ? setNumberOfLikes(numberOfLikes + 1) : setNumberOfLikes(numberOfLikes - 1);
       setIsPostLiked(!isPostLiked);
     })
     .catch((error) =>
-      alert("Error likeando post, por favor intentá nuevamente: " + error)
+      MySwal.fire({
+        title: "¡Error likeando publicación!",
+        text: "No pudimos dar like a la publicación, por favor intenta nuevamente:" + error,
+        icon: "error",
+        confirmButtonText: "Ok",
+      })
     );
 };
 
@@ -189,13 +216,18 @@ export const deletePost = (idPost, idUser, postCreatorId, setPosts) => {
         updateDoc(userRef, {
           createdPosts: arrayRemove(idPost),
         }).then((res) => {
-          alert("Post eliminado correctamente!");
-          setPosts((prevPosts) =>
-            prevPosts.filter((post) => post.idPost !== idPost)
-          );
+          MySwal.fire("¡Publicación eliminada!", "La publicación ha sido eliminada correctamente.", "success");
+          setPosts((prevPosts) => prevPosts.filter((post) => post.idPost !== idPost));
         });
       })
-      .catch((error) => alert("Error eliminando post: " + error));
+      .catch((error) => {
+        MySwal.fire({
+          title: "¡Error al eliminar la publicación!",
+          text: "No pudimos eliminar la publicación, por favor intenta nuevamente:" + error,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      });
   }
 };
 
@@ -207,28 +239,37 @@ export const editBio = (idUser, bio, setEditable) => {
   updateDoc(userRef, {
     bio: bio,
   })
-    .then(alert("Bio editada correctamente!"), setEditable(false))
-    .catch((error) =>
-      alert("No pudo editarse la bio, por favor intentá nuevamente: " + error)
-    );
+    .then(() => {
+      MySwal.fire({
+        title: "¡Bio editada!",
+        text: "Tu bio ha sido editada correctamente!",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+    }, setEditable(false))
+    .catch((error) => {
+      MySwal.fire({
+        title: "¡Error al editar!",
+        text: "No pudimos editar tu bio, por favor intenta nuevamente:" + error,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    });
 };
 
-export const updateProfilePicture = (
-  idUser,
-  profilePicture,
-  setProfilePicURL,
-  setProfilePicture
-) => {
+export const updateProfilePicture = (idUser, profilePicture, setProfilePicURL, setProfilePicture) => {
   if (!profilePicture) {
-    alert("Por favor, elegí una imagen para subir");
+    MySwal.fire({
+      title: "¡Error!",
+      text: "Por favor, elegí una imagen para subir",
+      icon: "error",
+      confirmButtonText: "Ok",
+    });
   } else {
     const fileName = profilePicture.name.replace(/\s/g, "");
     const fullFileName = `${idUser}${fileName}`;
 
-    const imageRef = ref(
-      storage,
-      `user-images/profile-pictures/${fullFileName}`
-    );
+    const imageRef = ref(storage, `user-images/profile-pictures/${fullFileName}`);
     uploadBytes(imageRef, profilePicture)
       .then((snapshot) => {
         return getDownloadURL(snapshot.ref);
@@ -239,9 +280,21 @@ export const updateProfilePicture = (
           profilePicURL: downloadURL,
         });
         setProfilePicURL(downloadURL);
-        alert("Imagen de perfil cargada correctamente!");
+        MySwal.fire({
+          title: "¡Imagen cargada!",
+          text: "¡Tu imagen de perfil ha sido cargada correctamente!",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
         setProfilePicture(null);
       })
-      .catch((error) => alert("Error cargando imagen de perfil: " + error));
+      .catch((error) =>
+        MySwal.fire({
+          title: "¡Error al cargar tu imagen!",
+          text: "No pudimos cargar tu imagen de perfil: " + error,
+          icon: "error",
+          confirmButtonText: "Ok",
+        })
+      );
   }
 };

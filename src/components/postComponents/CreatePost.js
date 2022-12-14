@@ -1,7 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { nanoid } from 'nanoid';
-import { submitPost } from '../../adapters/FirebaseAdapters';
-import { UserContext } from '../../context/UserContext';
+import React, { useState, useContext } from "react";
+import { nanoid } from "nanoid";
+import { submitPost } from "../../adapters/FirebaseAdapters";
+import { UserContext } from "../../context/UserContext";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 export default function CreatePost(props) {
   const { loggedUser, setPosts } = useContext(UserContext);
@@ -9,7 +13,7 @@ export default function CreatePost(props) {
     idPost: nanoid(),
     idUser: loggedUser.idUser,
     likedBy: [],
-    postContent: '',
+    postContent: "",
     postCreatorUsername: loggedUser.username,
   });
 
@@ -27,7 +31,7 @@ export default function CreatePost(props) {
   const validatePost = (event) => {
     event.preventDefault();
     if (!post.postContent) {
-      alert('Por favor, ingresá contenido en tu post.');
+      alert("Por favor, ingresá contenido en tu post."); // este alert es redundante y no aparece en ningun momento, lo podemos borrar
       return;
     }
 
@@ -37,11 +41,16 @@ export default function CreatePost(props) {
         idPost: nanoid(),
         idUser: loggedUser.idUser,
         likedBy: [],
-        postContent: '',
+        postContent: "",
         postCreatorUsername: loggedUser.username,
       });
     } catch (error) {
-      alert('Error publicando post: ' + error);
+      MySwal.fire({
+        title: "¡Error al crear tu publicación!",
+        text: "No pudimos crear tu publicación:" + error,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     }
   };
 
@@ -60,11 +69,7 @@ export default function CreatePost(props) {
         ></textarea>
         <br />
         <br />
-        <input
-          type="submit"
-          value="Crear post"
-          className="pad-mid back-black color-grey"
-        />
+        <input type="submit" value="Crear post" className="pad-mid back-black color-grey" />
       </form>
     </div>
   );

@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { editBio, updateProfilePicture } from "../adapters/FirebaseAdapters";
 import RenderPosts from "./postComponents/RenderPosts";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 export default function User(props) {
-  const [bio, setBio] = useState(
-    props.loggedUser.bio || "Contanos algo sobre vos :)"
-  );
+  const [bio, setBio] = useState(props.loggedUser.bio || "Contanos algo sobre vos :)");
   const [isEditable, setIsEditable] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
   const [profilePicURL, setProfilePicURL] = useState(
-    props.loggedUser.profilePicURL ||
-      "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+    props.loggedUser.profilePicURL || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
   );
   const [userPosts, setUserPosts] = useState([]);
 
-  const filterPosts = () =>
-    props.posts.filter((post) => post.idUser === props.loggedUser.idUser);
+  const filterPosts = () => props.posts.filter((post) => post.idUser === props.loggedUser.idUser);
 
   const handleChange = (event) => {
     setBio(event.target.value);
@@ -23,9 +23,16 @@ export default function User(props) {
 
   const updateBio = (event) => {
     event.preventDefault();
-    bio
-      ? editBio(props.loggedUser.idUser, bio, setIsEditable)
-      : alert("Por favor, ingresá texto en tu bio.");
+    if (bio) {
+      editBio(props.loggedUser.idUser, bio, setIsEditable);
+    } else {
+      MySwal.fire({
+        title: "¡Error!",
+        text: "Por favor, ingresá texto en tu bio.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
   };
 
   const handleFileSelect = (event) => {
@@ -39,31 +46,17 @@ export default function User(props) {
 
   return (
     <section className="pad-mid width-80">
-      <img
-        src={profilePicURL}
-        alt="Profile"
-        className="width-30 m-auto border-black"
-      />
+      <img src={profilePicURL} alt="Profile" className="width-30 m-auto border-black" />
       <br />
       <br />
       <label htmlFor="profilePicture">Actualizar foto de perfil</label>
       <br />
-      <input
-        type="file"
-        name="profilePicture"
-        accept=".jpg, .png"
-        onChange={handleFileSelect}
-      />
+      <input type="file" name="profilePicture" accept=".jpg, .png" onChange={handleFileSelect} />
       {profilePicture && (
         <button
           className="pad-mid color-grey back-black"
           onClick={() =>
-            updateProfilePicture(
-              props.loggedUser.idUser,
-              profilePicture,
-              setProfilePicURL,
-              setProfilePicture
-            )
+            updateProfilePicture(props.loggedUser.idUser, profilePicture, setProfilePicURL, setProfilePicture)
           }
         >
           Actualizar
@@ -80,10 +73,7 @@ export default function User(props) {
       <br />
       <h4>
         Bio
-        <i
-          className="fa fa-fw fa-pencil"
-          onClick={() => setIsEditable(!isEditable)}
-        ></i>
+        <i className="fa fa-fw fa-pencil" onClick={() => setIsEditable(!isEditable)}></i>
       </h4>
       {!isEditable ? (
         <p>{bio}</p>
@@ -97,11 +87,7 @@ export default function User(props) {
             placeholder={bio}
             className={isEditable ? "border-black pad-mid" : "pad-mid"}
           />
-          <input
-            type="submit"
-            className="back-black pad-small color-grey"
-            value="Actualizar bio"
-          />
+          <input type="submit" className="back-black pad-small color-grey" value="Actualizar bio" />
         </form>
       )}
       <br />
