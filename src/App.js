@@ -47,7 +47,7 @@ export default function App() {
                   path="/user"
                   element={<User loggedUser={loggedUser} posts={posts} />}
                 />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<Feed />} />
               </Routes>
             </div>
           </section>
@@ -59,7 +59,7 @@ export default function App() {
               <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/create-user" element={<CreateUser />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<Login />} />
               </Routes>
             </div>
           </section>
