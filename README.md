@@ -31,6 +31,7 @@ También tenemos un perfil de usuario con un nombre y una sencilla bio.
 - [x] Implementar SweetAlert para las alertas.
 - [x] Eliminar post.
 - [x] Diseño de UX/UI e isotipo.
+- [ ] (IMPORTANTE) Cargar página de login con Router (en primera carga, está llevando a página 404).
 - [ ] Mantener sesión inciada.
 - [ ] Opciones de accesibilidad y SEO (texto alternativo, keywords, etc.).
 - [ ] Archivos individuales para adapters de Firebase (hoy se encuentran todas en el archivo FirebaseAdapters.js).
