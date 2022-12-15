@@ -51,6 +51,7 @@ export default function App() {
               </Routes>
             </div>
           </section>
+          <Route path="*" element={<NotFound />} />
         </BrowserRouter>
       ) : (
         <BrowserRouter>
@@ -59,10 +60,10 @@ export default function App() {
               <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/create-user" element={<CreateUser />} />
-                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
           </section>
+          <Route path="*" element={<NotFound />} />
         </BrowserRouter>
       )}
       <Footer />
