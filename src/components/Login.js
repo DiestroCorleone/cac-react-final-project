@@ -43,10 +43,9 @@ export default function Login() {
   };
 
   return (
-    <section className="pad-mid">
+    <section className="card login">
       <form onSubmit={validateUserAndPass}>
-        <h1>Iniciar sesión</h1>
-        <br />
+        <h3>Iniciar sesión</h3>
         <input
           type="email"
           name="email"
@@ -54,10 +53,7 @@ export default function Login() {
           onChange={handleChange}
           placeholder="name@email.com"
           required
-          className="pad-small"
         />
-        <br />
-        <br />
         <input
           type="password"
           name="password"
@@ -65,16 +61,11 @@ export default function Login() {
           placeholder="password"
           onChange={handleChange}
           required
-          className="pad-small"
         />
-        <br />
-        <br />
-        <input type="submit" value="Ingresar" className="pad-small back-black color-grey" />
+        <input type="submit" value="Ingresar" className="button" />
       </form>
-      <br />
       <p>
         Aún no tenés una cuenta?
-        <br />
         <Link to={"/create-user"}>
           {" "}
           <span className="underline cursor-pointer">Registrate ahora</span>

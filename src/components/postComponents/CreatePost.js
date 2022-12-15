@@ -55,7 +55,8 @@ export default function CreatePost(props) {
   };
 
   return (
-    <div className="width-responsive">
+    <div className="card">
+      <p className='post-username'>{loggedUser.username}</p>
       <form onSubmit={validatePost}>
         <textarea
           type="text"
@@ -65,11 +66,9 @@ export default function CreatePost(props) {
           name="postContent"
           rows="10"
           required
-          className="width-full pad-small"
+          className="post-textarea"
         ></textarea>
-        <br />
-        <br />
-        <input type="submit" value="Crear post" className="pad-mid back-black color-grey" />
+        <input type="submit" value="Crear post" className="button" />
       </form>
     </div>
   );

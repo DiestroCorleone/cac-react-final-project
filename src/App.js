@@ -7,6 +7,9 @@ import NavBar from "./components/NavBar";
 import Feed from "./components/Feed";
 import User from "./components/User";
 import NotFound from "./components/NotFound";
+import Footer from "./components/Footer";
+
+import logo from "../src/images/coder-logo.svg";
 
 export default function App() {
   const [isUserLogged, setIsUserLogged] = useState(false);
@@ -24,32 +27,45 @@ export default function App() {
         setPosts,
       }}
     >
-      <div className="pad-mid">
-        <header className="pad-mid">
-          <h1>CoderConnect</h1>
-          <h3>La Red Social para Estudiantes de Programación!</h3>
+      <div className="header">
+        <header className="header-cont">
+          <h1 className="logo">
+            <img src={logo} alt="Coder Connect" />{" "}
+          </h1>
+          <h2>La Red Social para Estudiantes de Programación!</h2>
+          <br />
         </header>
+      </div>
+      {isUserLogged ? (
         <BrowserRouter>
           <NavBar />
-          <Routes>
-            {isUserLogged ? (
-              <>
+          <section className="body">
+            <div className="body-container">
+              <Routes>
                 <Route path="/feed" element={<Feed />} />
                 <Route
                   path="/user"
                   element={<User loggedUser={loggedUser} posts={posts} />}
                 />
-              </>
-            ) : (
-              <>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </section>
+        </BrowserRouter>
+      ) : (
+        <BrowserRouter>
+          <section className="body">
+            <div className="body-container">
+              <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/create-user" element={<CreateUser />} />
-              </>
-            )}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </section>
         </BrowserRouter>
-      </div>
+      )}
+      <Footer />
     </UserContext.Provider>
   );
 }

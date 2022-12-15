@@ -8,7 +8,8 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
 export default function NavBar() {
-  const { isUserLogged, setIsUserLogged, setLoggedUser } = useContext(UserContext);
+  const { isUserLogged, setIsUserLogged, setLoggedUser } =
+    useContext(UserContext);
 
   const navigate = useNavigate();
   const redirectAfterSignout = () => {
@@ -33,31 +34,33 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="pad-small back-black">
-      <ul className="flex row justify-between">
-        {!isUserLogged ? (
-          <>
-            <Link to="/" className="link">
-              <li>Login</li>
-            </Link>
-            <Link to="/create-user" className="link">
-              <li>Crear usuario</li>
-            </Link>
-          </>
-        ) : (
-          <>
+    <nav>
+      <div className="nav-container">
+        <ul>
+          <li>
             <Link to="/feed" className="link">
-              <li>Feed</li>
+              Feed
             </Link>
+          </li>
+          <li>
             <Link to="/user" className="link">
-              <li>Usuario</li>
+              Usuario
             </Link>
-            <li onClick={() => confirmSignOut()} className="link">
-              Cerrar sesión
-            </li>
-          </>
-        )}
-      </ul>
+          </li>
+          <li
+            onClick={() =>
+              signOutAccount(
+                setIsUserLogged,
+                setLoggedUser,
+                redirectAfterSignout
+              )
+            }
+            className="link"
+          >
+            <p>Cerrar sesión</p>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 }

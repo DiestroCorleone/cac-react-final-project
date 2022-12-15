@@ -29,21 +29,32 @@ export default function Post(props) {
   };
 
   return (
-    <article className="border-black pad-mid m-small">
-      {props.idUser === props.postCreatorId && (
-        <i className="fa fa-fw fa-trash pointer" onClick={() => confirmDelete()} title="Eliminar post"></i>
-      )}
-      <p>{props.postCreatorUsername}</p>
-      <p>{props.postContent}</p>
-      <small>
-        <i
-          onClick={() =>
-            likePost(props.idPost, props.idUser, isPostLiked, setIsPostLiked, numberOfLikes, setNumberOfLikes)
-          }
-          className={`cursor-pointer fa fa-fw ${isPostLiked ? "fa-thumbs-up" : "fa-thumbs-o-up"}`}
-        ></i>{" "}
-        {numberOfLikes}
-      </small>
-    </article>
+		<article className="card">
+			<div className="post-header">
+				<p className="post-username">{props.postCreatorUsername}</p>
+				{props.idUser === props.postCreatorId && (
+				<i className="fa fa-fw fa-trash delete-post" onClick={() =>deletePost(props.idPost, props.idUser, props.postCreatorId, setPosts)} title="Eliminar post"></i>
+			)}
+			</div>
+			<p className="post-content">{props.postContent}</p>
+			<small className="post-likes">
+				<i
+					onClick={() =>
+						likePost(
+							props.idPost,
+							props.idUser,
+							isPostLiked,
+							setIsPostLiked,
+							numberOfLikes,
+							setNumberOfLikes
+						)
+					}
+					className={`like-post fa fa-fw ${
+						isPostLiked ? "fa-thumbs-up" : "fa-thumbs-o-up"
+					}`}
+				></i>{" "}
+				{numberOfLikes}
+			</small>
+		</article>
   );
 }

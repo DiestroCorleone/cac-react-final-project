@@ -11,19 +11,27 @@ También tenemos un perfil de usuario con un nombre y una sencilla bio.
 
 [Demo app](https://react-dsce86.stackblitz.io)
 
+## Colaborador@s
+
+- [Florencia Miguez Oliverio](https://github.com/fmiguezo)
+- [Matias Micheletti](https://github.com/michelettimatias)
+- [Diestro Corleone](https://github.com/DiestroCorleone)
+
 ## Dependencias
 
 - [Firebase](npmjs.com/package/firebase)
 - [nanoid](https://www.npmjs.com/package/nanoid)
 - [SweetAlert2](https://sweetalert2.github.io/)
+- [GitHubPages](https://www.npmjs.com/package/gh-pages)
 
 ## To-do
 
 - [x] Edición de bio.
 - [x] Posibilidad de subir y modificar una imagen de perfil.
+- [x] Implementar SweetAlert para las alertas.
+- [x] Eliminar post.
+- [x] Diseño de UX/UI e isotipo.
 - [ ] Mantener sesión inciada.
-- [ ] Eliminar post/usuario.
-- [ ] Diseño de UX/UI e isotipo.
 - [ ] Opciones de accesibilidad y SEO (texto alternativo, keywords, etc.).
 - [ ] Archivos individuales para adapters de Firebase (hoy se encuentran todas en el archivo FirebaseAdapters.js).
 - [ ] (No urgente) Comentarios sobre posts.
@@ -35,6 +43,14 @@ También tenemos un perfil de usuario con un nombre y una sencilla bio.
 - **Feed:** Mediante un `useEffect`, trae todos los post y los almacena en un estado para luego ser renderizados.
 - **NavBar:** Como su nombre lo indica, barra de navegación. Varía su contenido de acuerdo si al usuario se encuentra o no con sesión iniciada. Permite acceder a las distintas rutas, y cerrar sesión (si aplica).
 - **User:** Nos muestra foto de perfil, e-mail y bio. Esta última puede editarse haciendo click en el ícono del lápiz. Si se elige esta opción, podemos editar la bio. Del mismo modo, podemos subir una imagen de perfil; cada una reemplazará a la anteriormente subida, almacenándose en la base de datos.
+- **Footer:** Links a los repositorios de los colaboradores del grupo.
+- **NotFound:** Página de error 404, devuelve a login en caso de error.
+
+### Carpeta _postComponents_
+
+- **CreatePost:** Autoexplicativo, form para creación de post con Firebase.
+- **Post:** Renderiza post individual, mostrará botón de eliminar basado en si quien inició sesión es quien creó el post.
+- **RenderPosts:** Mapea y renderiza los componentes _Post_ de acuerdo a la necesidad de la sección en la que nos encontremos (Feed o User).
 
 ## Available Scripts
 

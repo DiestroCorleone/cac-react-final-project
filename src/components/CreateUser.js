@@ -57,10 +57,9 @@ export default function CreateUser(props) {
   };
 
   return (
-    <section className="pad-mid">
+    <section className="card login">
       <form onSubmit={validateUserAndPass}>
-        <h1>Crear usuario</h1>
-        <br />
+        <h3>Crear usuario</h3>
         <input
           type="text"
           name="username"
@@ -68,10 +67,7 @@ export default function CreateUser(props) {
           onChange={handleChange}
           placeholder="Tu nombre de usuario..."
           required
-          className="pad-small"
         />
-        <br />
-        <br />
         <input
           type="email"
           name="email"
@@ -79,10 +75,7 @@ export default function CreateUser(props) {
           onChange={handleChange}
           placeholder="nombre@email.com"
           required
-          className="pad-small"
         />
-        <br />
-        <br />
         <input
           type="password"
           name="password"
@@ -90,10 +83,7 @@ export default function CreateUser(props) {
           placeholder="Contraseña (al menos 6 caracteres)"
           onChange={handleChange}
           required
-          className="pad-small"
         />
-        <br />
-        <br />
         <input
           type="password"
           name="repeatPassword"
@@ -101,13 +91,9 @@ export default function CreateUser(props) {
           placeholder="Repetir contraseña"
           onChange={handleChange}
           required
-          className="pad-small"
         />
-        <br />
-        <br />
-        <input type="submit" value="Registrate" className="pad-small back-black color-grey" />
+        <input type="submit" value="Registrate" className="button" />
       </form>
-      <br />
       <p>
         Ya tenés una cuenta?
         <br />
